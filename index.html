@@ -150,5 +150,11 @@ $("top").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
 try{const f=JSON.parse(localStorage.getItem("f116")||"null");if(f){$("q").value=f.q||"";(f.sc||[]).forEach(x=>schools.includes(x)&&sc.add(x));(f.ms||[]).forEach(x=>MO.includes(x)&&ms.add(x));(f.fd||[]).forEach(x=>FIELDS.includes(x)&&fd.add(x));if(["school","quota","date","idate","rdate"].includes(f.sk))$("sk").value=f.sk;if(["lh","own"].includes(f.ch)){ch=f.ch;$("chw").value=ch}$("scw").sync();$("mtw").sync();$("fdw").sync()}}catch(e){}
 $("list").onclick=e=>{const x=e.target.closest("[data-x]");if(x){const id=+x.dataset.x;exp.has(id)?exp.delete(id):exp.add(id);render()}};
 render();
-{let ly=window.scrollY,acc=0;const bar=document.querySelector('.bar');window.addEventListener('scroll',()=>{const y=Math.max(0,window.scrollY),d=y-ly;ly=y;if(d!==0){if(acc*d<0)acc=0;acc+=d}if(y<=60){bar.classList.remove('hide');acc=0}else if(acc>40&&y>120){bar.classList.add('hide');document.querySelectorAll('.msp').forEach(x=>x.hidden=true);acc=0}else if(acc<-24){bar.classList.remove('hide');acc=0}$("top").hidden=y<800;fill()},{passive:true})}
+{const bar=document.querySelector('.bar');let ly=window.scrollY,acc=0,ty=null,ta=0;
+const show=()=>{bar.classList.remove('hide');acc=0;ta=0},hide=()=>{bar.classList.add('hide');document.querySelectorAll('.msp').forEach(x=>x.hidden=true);acc=0;ta=0};
+window.addEventListener('scroll',()=>{const y=Math.max(0,window.scrollY),d=y-ly;ly=y;if(d!==0){if(acc*d<0)acc=0;acc+=d}
+if(y<=60)show();else if(acc>30&&y>120)hide();else if(acc<-8)show();$("top").hidden=y<800;fill()},{passive:true});
+window.addEventListener('touchstart',e=>{ty=e.touches[0].clientY;ta=0},{passive:true});
+window.addEventListener('touchmove',e=>{if(ty==null)return;const t=e.touches[0].clientY,d=t-ty;ty=t;if(ta*d<0)ta=0;ta+=d;if(ta>14&&window.scrollY>60)show()},{passive:true});
+window.addEventListener('touchend',()=>{ty=null},{passive:true})}
 </script>
